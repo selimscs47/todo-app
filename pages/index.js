@@ -16,6 +16,11 @@ export default function Home() {
     setOpen(true);
   };
 
+  const [todo, setTodo] = useState({
+    baslik: "",
+  aciklama: "",
+});
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -25,7 +30,7 @@ export default function Home() {
   };
 
   return (
-    <TodoContext.Provider value={{ showAlert }}>
+    <TodoContext.Provider value={{ showAlert,todo,setTodo }}>
       <Container maxWidth="md">
         <Head>
           <title>SCS Todo App</title>
