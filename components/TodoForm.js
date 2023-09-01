@@ -3,9 +3,11 @@ import { useContext, useRef, useEffect } from "react";
 import { collection, addDoc, serverTimestamp, updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase";
 import { TodoContext } from "../contexts/TodoContext";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default function TodoForm() {
   const { showAlert, todo, setTodo } = useContext(TodoContext);
+  const { currentUser } = useContext(AuthContext);
   const inputRef = useRef();
 
   useEffect(() => {
@@ -44,7 +46,7 @@ export default function TodoForm() {
     } else {
       //ekleme
       const ref = collection(db, "todos");
-      const docRef = await addDoc(ref, { ...todo, tarih: serverTimestamp() });
+      const docRef = await addDoc(ref,  {...todo,kullaniciEmail:currentUser.email,tarih:serverTimestamp() });
 
       console.log(docRef.id);
 
@@ -61,7 +63,7 @@ export default function TodoForm() {
   return (
     <div ref={inputRef}>
       <form onSubmit={handleClick}>
-        <Typography sx={{ mt: 3, fontWeight: "bold" }} variant="h5" color="darkgrey">
+        <Typography sx={{ mt: 3, fontWeight: "bold" }} variant="h5" color="cadetblue">
           Yeni ToDo Ekle
         </Typography>
         <TextField
